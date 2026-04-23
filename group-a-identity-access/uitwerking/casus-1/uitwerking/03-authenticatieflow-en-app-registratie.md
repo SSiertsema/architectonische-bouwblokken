@@ -74,9 +74,8 @@ Geanonimiseerd voorbeeld van de payload van een ID-token voor Sanne:
   "name": "Sanne Jansen",
   "given_name": "Sanne",
   "family_name": "Jansen",
-  "roles": ["Lezer", "Verrijker"],
   "nonce": "<nonce-from-request>"
 }
 ```
 
-De `roles`-claim wordt in `05-rollen-en-claims.md` verder toegelicht.
+Aanvullende claims die via de app-registratie kunnen worden meegegeven (zoals een `roles`-claim voor app roles) zijn input voor autorisatie-beslissingen en worden in `05-rollen-en-claims.md` kort beschreven op het niveau van claim-levering. De betekenis en het gebruik van die claims valt onder A2.

@@ -14,17 +14,17 @@ flowchart LR
 
   subgraph Azure["Azure — subscription Meerwijde"]
     AFD["Azure Front Door<br/>+ WAF"]
-    App["App Service<br/>ASP.NET Core BFF"]
+    App["App Service<br/>Node.js 20 + Fastify BFF"]
     MI{{"Managed Identity<br/>(system-assigned)"}}
     KV[("Key Vault<br/>clientcertificaat")]
     LAW[("Log Analytics<br/>+ Sentinel")]
-    DB[("Applicatie-DB<br/>Azure SQL / Cosmos")]
+    DB[("Azure SQL<br/>Entra-auth met user token")]
   end
 
   subgraph Entra["Entra ID tenant meerwijde.onmicrosoft.com"]
     Auth["login.microsoftonline.com<br/>/authorize · /token · /logout"]
     Reg["App registration<br/>beheertool-prod"]
-    Ent["Enterprise Application<br/>+ app role assignments"]
+    Ent["Enterprise Application<br/>+ gebruikers-/groepstoewijzingen"]
   end
 
   User -->|A| Vue
@@ -57,7 +57,7 @@ flowchart LR
 | G | Entra → App Service | Levert `id_token`, `access_token`, `refresh_token` terug |
 | H | App Service → Managed Identity | Backend gebruikt de system-assigned managed identity om Key Vault aan te spreken |
 | I | Managed Identity → Key Vault | Ophalen van het clientcertificaat voor token-endpoint (gebeurt bij opstart, in-memory gecached tot rotatie) |
-| J | App Service → Applicatie-DB | Reguliere applicatie-queries (dossiers, aantekeningen) — buiten A1-scope |
+| J | App Service → Azure SQL | Reguliere applicatie-queries, geauthenticeerd met de access token van de **ingelogde gebruiker** (audience `https://database.windows.net/`). SQL ziet de Entra-identiteit van de gebruiker; wat SQL daar vervolgens mee doet (rechten, filters, etc.) valt onder A2 |
 | K | App Service → Log Analytics | Sign-in-events, audit-events en applicatie-logs (zie `../07-compliance-en-auditlogging.md`) |
 
 ## Inlogflow — sequentie

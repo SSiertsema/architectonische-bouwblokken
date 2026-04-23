@@ -23,7 +23,6 @@ Deze policies gelden voor alle cloud-apps, niet alleen voor de beheertool:
 |--------|---------|
 | **CA-Beheertool-MFA** | Target: alle gebruikers met toegang tot de Enterprise Application `beheertool-prod`. Grant: require MFA + require compliant device |
 | **CA-Beheertool-SessionControl** | Sign-in frequency: 8 uur. Persistent browser session: Never. Effect: na een werkdag opnieuw een MFA-prompt |
-| **CA-Beheertool-Beheerders-StrictDevice** | Target: leden van de app role `Beheerder`. Grant: require compliant device met risk score Low. Sign-in frequency: 4 uur |
 
 ### Laag 3 — Identity Protection (P2)
 
@@ -45,18 +44,6 @@ Uitgesloten:
 
 - **SMS- en voice-call OTP** — uitgefaseerd wegens SIM-swap-risico
 - **E-mail OTP** — niet beschikbaar als tweede factor voor werkaccounts
-
-## Privileged Identity Management (PIM)
-
-Gebruikers met beheerrechten in de applicatie krijgen die rechten **niet permanent**, maar via **PIM for Groups**:
-
-- De AD-groep `APP-Beheertool-Beheerders` is onder PIM-beheer gebracht in Entra
-- Medewerkers zijn *eligible* member, geen *active*
-- Activatie voor maximaal 4 uur, met verplichte rechtvaardiging (vrije tekst of ticket-ID)
-- MFA op het moment van activatie
-- Gecontroleerde rollen (zoals toegang tot pseudonimisering of schrap-functies) vragen bovendien goedkeuring van een tweede beheerder
-
-Na afloop vervalt het actieve lidmaatschap en valt de gebruiker terug op zijn reguliere rechten. Activaties en deactivaties verschijnen in de Entra audit log en worden naar Sentinel doorgeleid.
 
 ## Break-glass accounts
 

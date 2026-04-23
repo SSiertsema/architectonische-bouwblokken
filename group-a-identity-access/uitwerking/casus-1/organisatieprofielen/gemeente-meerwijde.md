@@ -145,7 +145,7 @@ Verantwoording verloopt primair via **ENSIA** (jaarlijkse zelfevaluatie informat
 
 ## Relevantie voor casus 1
 
-Meerwijde is een typische Meerwijde-achtige organisatie: groot genoeg om volwassen Azure-governance en CA-beleid te rechtvaardigen, klein genoeg om een beheertool voor een specifieke beleidsgroep met verantwoorde inspanning te bouwen. De combinatie van BIO-plicht, veel persoonsgegevens en een hybride identiteitslandschap maakt dat de invulling uit casus 1 — OIDC naar Entra ID, app roles via gesyncte AD-groepen, Conditional Access met device compliance — hier natuurlijk past.
+Meerwijde is een typische Meerwijde-achtige organisatie: groot genoeg om volwassen Azure-governance en CA-beleid te rechtvaardigen, klein genoeg om een beheertool voor een specifieke beleidsgroep met verantwoorde inspanning te bouwen. De combinatie van BIO-plicht, veel persoonsgegevens en een hybride identiteitslandschap maakt dat de invulling uit casus 1 — OIDC naar Entra ID, gesyncte AD-groepen als bron voor identiteitsclaims, Conditional Access met device compliance — hier natuurlijk past.
 
 Concreet voor de interne beheertool:
 

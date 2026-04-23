@@ -10,10 +10,10 @@ De volgende technische en organisatorische gegevens zijn als uitgangspunt genome
 
 - **Identiteitsbron**: on-prem Active Directory Domain Services (AD DS) is de bron voor medewerkeridentiteiten, gekoppeld aan het HR-systeem voor in- en uitdienstmeldingen
 - **Cloud-identiteit**: Entra ID is de identity provider voor cloud-applicaties, gevoed door AD via Entra Connect Sync
-- **Licentiemodel**: Microsoft 365 E3 met Entra ID P1; voor specifieke onderdelen (Identity Protection, PIM) is P2 beschikbaar voor aangewezen gebruikers
+- **Licentiemodel**: Microsoft 365 E3 met Entra ID P1; Entra ID P2 is beschikbaar voor aangewezen gebruikers (onder andere voor Identity Protection)
 - **Werkplek**: Hybrid Azure AD-joined werkplekken, beheerd via Microsoft Intune; Windows Hello for Business is de primaire inlogmethode op het apparaat
 - **Hosting**: de applicatie draait op Azure-platformdiensten (App Service of Container Apps) in Azure-region West Europe of North Europe
-- **Compliance-baseline**: BIO geldt als minimum; ENSIA-verantwoording vraagt bewijslast over toegangsbeheer
+- **Compliance-baseline**: BIO geldt als minimum; ENSIA-verantwoording vraagt bewijslast over de authenticatie-onderdelen van toegangsbeheer
 - **Organisatorisch**: afdeling Informatievoorziening beheert het Azure-platform en de app-registratie; functioneel beheer ligt bij de beleidsdirectie
 
 ## Scope van deze uitwerking
@@ -22,7 +22,7 @@ De volgende technische en organisatorische gegevens zijn als uitgangspunt genome
 - Keuze en configuratie van de authenticatieflow naar de applicatie
 - Koppeling tussen AD, Entra ID en de applicatie
 - Conditional Access-beleid dat van toepassing is op het inloggen
-- Rol- en claimafhandeling tot aan de autorisatiegrens van A1
+- Welke claims Entra aflevert na authenticatie, tot aan de autorisatiegrens van A1
 - Sessie- en tokenduur voor zover deze uit de federatieprotocollen volgt
 - Logging en audittrail die specifiek op authenticatie betrekking hebben
 
@@ -40,6 +40,6 @@ De volgende bestanden in deze map werken elk een specifiek aspect verder uit:
 - `02-identiteitsarchitectuur.md` — topologie AD ↔ Entra ID ↔ applicatie
 - `03-authenticatieflow-en-app-registratie.md` — OIDC-flow en Entra-app-registratie
 - `04-conditional-access-en-mfa.md` — voorwaardelijke toegang en MFA-beleid
-- `05-rollen-en-claims.md` — van AD-groep naar app-rol via claims
+- `05-rollen-en-claims.md` — welke identiteitsclaims Entra aflevert na authenticatie
 - `06-sessie-en-tokens.md` — token-levensduur en sessieduur
 - `07-compliance-en-auditlogging.md` — BIO/NCSC-bewijslast en auditlog

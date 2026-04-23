@@ -53,6 +53,7 @@ export default withMermaid({
                           { text: 'Overzicht', link: '/group-a-identity-access/uitwerking/casus-1/uitwerking/tech/' },
                           { text: 'Architectuur & communicatie', link: '/group-a-identity-access/uitwerking/casus-1/uitwerking/tech/architectuur' },
                           { text: 'Vue-frontend — stappen', link: '/group-a-identity-access/uitwerking/casus-1/uitwerking/tech/vue-frontend-stappen' },
+                          { text: 'Backend (Node.js) — stappen', link: '/group-a-identity-access/uitwerking/casus-1/uitwerking/tech/backend-node-stappen' },
                         ],
                       },
                     ],

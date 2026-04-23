@@ -5,14 +5,16 @@ Deze sectie bevat de concrete technische invulling van casus 1: welke componente
 ## Stack in deze casus
 
 - **Frontend** — Vue 3 + Vite + TypeScript, gedraaid als SPA in de browser
-- **Backend** — ASP.NET Core (.NET 8) op Azure App Service, fungeert als Backend-for-Frontend (BFF) en handelt OIDC-authenticatie af
+- **Backend** — Node.js 20 + Fastify + TypeScript op Azure App Service, fungeert als Backend-for-Frontend (BFF) en handelt OIDC-authenticatie af
+- **Database** — Azure SQL (Managed Instance of Database), benaderd met Entra-tokens van de ingelogde gebruiker
 - **Identity Provider** — Entra ID (tenant `meerwijde.onmicrosoft.com`)
 - **Platform** — Azure (App Service, Azure Front Door + WAF, Key Vault, Log Analytics, Managed Identity)
 
 ## Pagina's
 
-- [Architectuur & communicatie](./architectuur) — diagrammen met proceslijnen en beschrijving van elk stap
+- [Architectuur & communicatie](./architectuur) — diagrammen met proceslijnen en beschrijving van elke stap
 - [Vue-frontend — implementatiestappen](./vue-frontend-stappen) — concrete taken voor het Vue-component
+- [Backend (Node.js) — implementatiestappen](./backend-node-stappen) — concrete taken voor het Node.js-component
 
 ## Patroon: BFF (Backend-for-Frontend)
 

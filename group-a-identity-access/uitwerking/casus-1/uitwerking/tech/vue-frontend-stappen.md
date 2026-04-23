@@ -2,6 +2,8 @@
 
 Stappenplan voor het bouwen van de Vue-frontend binnen het BFF-patroon uit casus 1. Uitgangspunt: de backend regelt de OIDC-flow en zet een sessiecookie. De Vue-app hoeft zelf niets van Entra, MSAL, tokens of PKCE te weten — zij communiceert alleen met het eigen backend-API via die cookie.
 
+> **Scope.** Dit bestand beschrijft uitsluitend het authenticatie-aspect van de Vue-frontend: hoe de applicatie vaststelt of er een geldige sessie is, hoe inloggen en uitloggen verlopen, en hoe de identiteit van de gebruiker wordt ontsloten. Wat de applicatie vervolgens mag doen op basis van die identiteit — welke menu-items getoond worden, welke routes beperkt zijn, welke acties geblokkeerd worden — valt onder **A2 — Autorisatie** en wordt daar uitgewerkt.
+
 ## 0. Voorwaarden aan de backend-kant
 
 Voordat het Vue-werk start moet de backend deze endpoints aanbieden:
@@ -10,10 +12,9 @@ Voordat het Vue-werk start moet de backend deze endpoints aanbieden:
 |----------|------|
 | `GET /signin` | Start de OIDC-flow, redirect naar Entra |
 | `GET /signin-oidc` | Entra-redirect-URI, wisselt code om en zet sessiecookie |
-| `GET /signout` | Beëindigt sessie + redirect naar Entra end-session-endpoint |
+| `GET /signout` | Beëindigt de sessie, redirect naar Entra end-session-endpoint |
 | `GET /signout-oidc` | Opruimen na Entra-signout |
-| `GET /api/me` | Retourneert `{oid, name, preferred_username, roles}` op basis van de sessiecookie, of 401 |
-| `POST /api/...` | Alle applicatie-API's; verplichten cookie-auth én anti-forgery token |
+| `GET /api/me` | Retourneert `{oid, name, preferredUsername}` op basis van de sessiecookie, of 401 |
 
 ## 1. Projectopzet
 
@@ -46,24 +47,21 @@ export default defineConfig({
 })
 ```
 
-In productie serveert de backend de statische build (of Front Door routeert beide naar dezelfde App Service); cross-origin is dan niet nodig.
+In productie serveert de backend de statische build (of Front Door routeert beide naar dezelfde origin); cross-origin is dan niet nodig.
 
 ## 3. Typed user-model
 
 `src/types/auth.ts`:
 
 ```ts
-export type UserRole = 'Lezer' | 'Verrijker' | 'Goedkeurder' | 'Beheerder'
-
 export interface CurrentUser {
   oid: string
   name: string
   preferredUsername: string
-  roles: UserRole[]
 }
 ```
 
-De rol-namen komen één-op-één overeen met de `value`-velden van de app roles uit `../05-rollen-en-claims.md`.
+Dit model bevat alleen de identiteit die door Entra is bevestigd. Aanvullende claims die relevant zijn voor autorisatiebeslissingen worden niet door deze laag afgehandeld.
 
 ## 4. HTTP-client met cookie en 401-gedrag
 
@@ -84,8 +82,7 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (res.status === 401) {
     // sessie vervallen of nog niet gestart — full-page redirect
     window.location.assign('/signin?returnUrl=' + encodeURIComponent(location.pathname + location.search))
-    // nooit terugkeren — de browser navigeert
-    return new Promise<T>(() => {})
+    return new Promise<T>(() => {}) // nooit terugkeren — de browser navigeert
   }
 
   if (!res.ok) {
@@ -96,7 +93,7 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
 }
 ```
 
-Belangrijk: de 401-handler doet een **full-page navigation**, geen SPA-route. OIDC vereist een echte browser-redirect naar Entra en de server zet de cookie alleen op een top-level request.
+Belangrijk: de 401-handler doet een **full-page navigation**, geen SPA-route. OIDC vereist een echte browser-redirect naar Entra, en de server zet de cookie alleen op een top-level request.
 
 ## 5. Pinia auth-store
 
@@ -104,9 +101,9 @@ Belangrijk: de 401-handler doet een **full-page navigation**, geen SPA-route. OI
 
 ```ts
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { api } from '@/lib/api'
-import type { CurrentUser, UserRole } from '@/types/auth'
+import type { CurrentUser } from '@/types/auth'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<CurrentUser | null>(null)
@@ -122,10 +119,6 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  function hasRole(role: UserRole): boolean {
-    return user.value?.roles.includes(role) ?? false
-  }
-
   function signIn() {
     const returnUrl = location.pathname + location.search
     location.assign('/signin?returnUrl=' + encodeURIComponent(returnUrl))
@@ -135,9 +128,11 @@ export const useAuthStore = defineStore('auth', () => {
     location.assign('/signout')
   }
 
-  return { user, isReady, loadCurrentUser, hasRole, signIn, signOut }
+  return { user, isReady, loadCurrentUser, signIn, signOut }
 })
 ```
+
+De store doet twee dingen: vaststellen of er een geauthenticeerde sessie is, en de identiteit beschikbaar maken voor weergave (naam in de header, welkomsttekst, et cetera).
 
 ## 6. App bootstrap
 
@@ -154,7 +149,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 
-// Eerst de user ophalen, dán mounten — voorkomt flash of unauthenticated UI
+// Eerst de identiteit ophalen, dán mounten — voorkomt flash of unauthenticated UI
 const auth = useAuthStore()
 auth.loadCurrentUser().finally(() => app.mount('#app'))
 ```
@@ -166,22 +161,18 @@ auth.loadCurrentUser().finally(() => app.mount('#app'))
 ```ts
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import type { UserRole } from '@/types/auth'
 
 declare module 'vue-router' {
   interface RouteMeta {
     requiresAuth?: boolean
-    requiresRole?: UserRole
   }
 }
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/',             component: () => import('@/views/Dashboard.vue'),  meta: { requiresAuth: true } },
-    { path: '/dossier/:id',  component: () => import('@/views/Dossier.vue'),    meta: { requiresAuth: true, requiresRole: 'Lezer' } },
-    { path: '/goedkeuren',   component: () => import('@/views/Goedkeuren.vue'), meta: { requiresAuth: true, requiresRole: 'Goedkeurder' } },
-    { path: '/forbidden',    component: () => import('@/views/Forbidden.vue') },
+    { path: '/',             component: () => import('@/views/Dashboard.vue'), meta: { requiresAuth: true } },
+    { path: '/dossier/:id',  component: () => import('@/views/Dossier.vue'),   meta: { requiresAuth: true } },
   ],
 })
 
@@ -191,80 +182,48 @@ router.beforeEach((to) => {
     auth.signIn()
     return false
   }
-  if (to.meta.requiresRole && !auth.hasRole(to.meta.requiresRole)) {
-    return { path: '/forbidden' }
-  }
 })
 
 export default router
 ```
 
-De route-guards zijn **UX-laag**: ze voorkomen dat Sanne een pagina ziet waar ze niets mag. De werkelijke autorisatiebeslissing valt altijd aan de backend-kant (A2). De Vue-controle mag nooit de enige poort zijn.
+De route-guard kijkt uitsluitend of er *überhaupt* een geauthenticeerde sessie is. De vraag "mag deze gebruiker déze route zien" valt onder A2.
 
-## 8. Rol-afhankelijke UI
-
-Helpercomponent `src/components/RequireRole.vue`:
+## 8. Uitloggen
 
 ```vue
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-import type { UserRole } from '@/types/auth'
-
-const props = defineProps<{ role: UserRole }>()
 const auth = useAuthStore()
 </script>
 
 <template>
-  <slot v-if="auth.hasRole(props.role)" />
+  <button @click="auth.signOut()">Uitloggen</button>
 </template>
-```
-
-Gebruik:
-
-```vue
-<RequireRole role="Goedkeurder">
-  <button @click="approve">Goedkeuren</button>
-</RequireRole>
-```
-
-## 9. Anti-forgery (CSRF)
-
-Cookie-auth zonder CSRF-bescherming is onveilig. De backend levert een anti-forgery-token (bijv. header `X-CSRF-TOKEN` of via een cookie + header), en de HTTP-client stuurt die op elke niet-GET-request mee:
-
-```ts
-// bij bootstrap één keer ophalen
-const { token } = await api<{ token: string }>('/api/antiforgery')
-
-// in api():
-headers: { ..., 'X-CSRF-TOKEN': token }
-```
-
-De exacte mechanismen worden afgestemd met de ASP.NET-Core-configuratie aan backend-zijde.
-
-## 10. Uitloggen
-
-```vue
-<button @click="auth.signOut()">Uitloggen</button>
 ```
 
 De backend verwijdert de sessie, stuurt de gebruiker door naar Entra's end-session-endpoint, Entra beëindigt de SSO-sessie en roept eventuele front-channel logout-URL's aan van andere apps (single logout, zie `../06-sessie-en-tokens.md`).
 
-## 11. Ontwikkelcheck
+## 9. Ontwikkelcheck
 
 Vooraf aan opleveren:
 
 - [ ] Geen tokens, JWT's of MSAL-cache in `localStorage`, `sessionStorage` of `IndexedDB`
 - [ ] 401-response leidt tot full-page redirect naar `/signin`, niet tot witte pagina of oneindige loop
-- [ ] `returnUrl` parameter wordt meegegeven bij `/signin` en na login daadwerkelijk gehonoreerd door de backend
-- [ ] Rol-afhankelijke UI verbergt acties die de gebruiker niet mag (UX), maar de bijbehorende API calls worden bovendien afgewezen aan backend-zijde (security)
+- [ ] `returnUrl` parameter wordt meegegeven bij `/signin` en na login gehonoreerd door de backend
 - [ ] Logout leidt tot verwijderde cookie én afgemelde Entra-sessie
 - [ ] Dev-proxy gebruikt dezelfde origin als de SPA zodat de cookie meereist
 - [ ] CSP-headers (zie `B4 — Security Headers`) blokkeren inline scripts en externe origins
 
-## 12. Teststrategie
+## 10. Teststrategie
 
-- **Unit**: auth-store methoden (Vitest, happy-dom)
-- **Component**: `RequireRole` met gemockte store
-- **E2E**: Playwright/Cypress met een testaccount in een acceptatie-tenant; volledige flow van `/` → `/signin` → MFA-uitgezonderd testaccount → terug naar app
+- **Unit** (Vitest): auth-store methoden, HTTP-client 401-gedrag
+- **E2E** (Playwright): volledige flow van `/` → `/signin` → Entra → terug naar app met cookie; logout via `/signout` naar Entra end-session → cookie weg
 
-Voor E2E wordt in de acceptatie-tenant een dedicated testaccount gebruikt dat is uitgezonderd van interactieve MFA-policies (via een gerichte Conditional Access-exclusion op basis van app én gebruiker). Deze uitzondering staat gedocumenteerd en wordt periodiek gereviewd.
+Voor E2E wordt in een acceptatie-tenant een dedicated testaccount gebruikt. Uitzonderingen op interactieve MFA-policies voor dit account worden vastgelegd en periodiek gereviewd conform `../04-conditional-access-en-mfa.md`.
+
+## Aanvullende beveiliging buiten A1-scope
+
+- **Cross-Site Request Forgery (CSRF)** — bescherming van de authenticated sessie tegen cross-site misbruik valt onder **A3 — Sessiemanagement** en **B — Application Hardening**
+- **Autorisatie in de UI** — welke menu-items, routes en acties zichtbaar of uitvoerbaar zijn valt onder **A2 — Autorisatie**
+- **Security headers** (CSP, HSTS, etc.) — zie **B4 — Security Headers**

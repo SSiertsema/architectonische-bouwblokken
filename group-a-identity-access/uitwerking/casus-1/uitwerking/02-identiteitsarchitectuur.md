@@ -24,7 +24,7 @@ Het HR-systeem is de "system of record" voor medewerkerstatus. AD DS is de "syst
 Entra Connect Sync verzorgt de synchronisatie van AD naar Entra ID. Relevante keuzes die in Meerwijde gelden:
 
 - **Password Hash Sync (PHS)** is ingeschakeld, zodat inloggen op Entra blijft werken als AD tijdelijk onbereikbaar is
-- **Gesynchroniseerde objecten**: medewerker-accounts (users), security groups die voor autorisatiedoeleinden worden gebruikt, en computers voor Hybrid Azure AD Join
+- **Gesynchroniseerde objecten**: medewerker-accounts (users), security groups die als bron voor claims richting applicaties fungeren, en computers voor Hybrid Azure AD Join
 - **OU-filtering**: test-OU's, serviceaccounts en buitendienst-accounts worden uitgesloten van synchronisatie
 - **Attribuut-mapping**: `userPrincipalName` is het primaire e-mailadres (`voornaam.achternaam@meerwijde.nl`); de on-prem `objectGUID` wordt vertaald naar `ImmutableID` in Entra zodat de koppeling stabiel blijft
 - **Password writeback** is actief voor self-service password reset vanuit Entra; hiermee blijft AD consistent als een medewerker via het Entra-portaal een wachtwoord reset
@@ -41,10 +41,10 @@ Entra Connect Sync verzorgt de synchronisatie van AD naar Entra ID. Relevante ke
 Relevante objecttypen voor deze casus:
 
 - **Users** — gesynct vanuit AD; cloud-only accounts alleen voor break-glass en enkele technische rollen
-- **Groups** — security groups gesynct vanuit AD (bron van rolverlening) plus Entra-only groepen voor cloud-specifieke doeleinden (PIM for Groups)
+- **Groups** — security groups gesynct vanuit AD plus Entra-only groepen voor cloud-specifieke doeleinden; bron voor claims in het ID-token
 - **Devices** — Hybrid Azure AD-joined werkplekken; Intune-compliance status is beschikbaar als signal in Conditional Access
-- **App registrations** — technische configuratie van de applicatie (client ID, redirect URIs, certificaten, permissies, app roles)
-- **Enterprise applications** — service principal-representatie van dezelfde applicatie in de tenant; hierop landen gebruikers-/groepentoewijzingen en Conditional Access-policies
+- **App registrations** — technische configuratie van de applicatie (client ID, redirect URIs, certificaten, permissies, claim-configuratie)
+- **Enterprise applications** — service principal-representatie van dezelfde applicatie in de tenant; hierop landen Conditional Access-policies en gebruikers-/groepentoewijzingen (die laatste zijn relevant voor A2)
 
 ## Hybride aspect voor de beheertool
 
