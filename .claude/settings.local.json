@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git diff *)"
+      "Bash(git diff *)",
+      "Bash(mkdir -p casus-1 casus-2 casus-3 casus-4 casus-5)",
+      "Bash(mv casus-1-interne-beheertool.md casus-1/index.md)",
+      "Bash(mv casus-1-uitwerking *)",
+      "Bash(mv personas *)",
+      "Bash(mv organisatieprofielen *)"
     ]
   }
 }

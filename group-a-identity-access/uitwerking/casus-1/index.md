@@ -29,3 +29,9 @@ Een applicatie die alleen door medewerkers van de eigen organisatie wordt gebrui
 - **A2 — Autorisatie**: rollen en groepen komen mee als claims uit de IdP
 - **A3 — Sessiemanagement**: sessielevensduur volgt het IdP-beleid
 - **C1 — Logging & Audit Trail**: inlogevents komen primair uit de IdP-logs
+
+## Verdere uitwerking
+
+- [Uitwerking (7 deelbestanden)](./uitwerking/01-context) — van context tot auditlogging
+- [Persona: Sanne de Beleidsmedewerker](./personas/sanne-beleidsmedewerker)
+- [Organisatieprofiel: Gemeente Meerwijde](./organisatieprofielen/gemeente-meerwijde)
