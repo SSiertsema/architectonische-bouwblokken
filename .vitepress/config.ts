@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default defineConfig({
+export default withMermaid({
   title: 'Architectonische Bouwblokken',
   description: 'Herbruikbare bouwblokken voor veilige softwareontwikkeling',
   lang: 'nl-NL',
@@ -45,6 +46,15 @@ export default defineConfig({
                       { text: '05 — Identiteitsclaims & rol-levering', link: '/group-a-identity-access/uitwerking/casus-1/uitwerking/05-rollen-en-claims' },
                       { text: '06 — Sessie & tokens', link: '/group-a-identity-access/uitwerking/casus-1/uitwerking/06-sessie-en-tokens' },
                       { text: '07 — Compliance & auditlogging', link: '/group-a-identity-access/uitwerking/casus-1/uitwerking/07-compliance-en-auditlogging' },
+                      {
+                        text: 'TECH',
+                        collapsed: true,
+                        items: [
+                          { text: 'Overzicht', link: '/group-a-identity-access/uitwerking/casus-1/uitwerking/tech/' },
+                          { text: 'Architectuur & communicatie', link: '/group-a-identity-access/uitwerking/casus-1/uitwerking/tech/architectuur' },
+                          { text: 'Vue-frontend — stappen', link: '/group-a-identity-access/uitwerking/casus-1/uitwerking/tech/vue-frontend-stappen' },
+                        ],
+                      },
                     ],
                   },
                   { text: 'Persona: Sanne de Beleidsmedewerker', link: '/group-a-identity-access/uitwerking/casus-1/personas/sanne-beleidsmedewerker' },
