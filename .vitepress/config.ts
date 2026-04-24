@@ -7,6 +7,7 @@ export default withMermaid({
   lang: 'nl-NL',
   cleanUrls: true,
   ignoreDeadLinks: true,
+  srcExclude: ['uitwerking/**', 'node_modules/**'],
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
@@ -65,83 +66,8 @@ export default withMermaid({
               { text: 'Casus 2 — B2B SaaS multi-IdP', link: '/group-a-identity-access/uitwerking/casus-2/' },
               { text: 'Casus 3 — Publieksapplicatie burgers', link: '/group-a-identity-access/uitwerking/casus-3/' },
               { text: 'Casus 4 — Overheidsdienst bedrijven', link: '/group-a-identity-access/uitwerking/casus-4/' },
-              {
-                text: 'Casus 5 — Consumentenproduct (CIAM)',
-                link: '/group-a-identity-access/uitwerking/casus-5/',
-                collapsed: true,
-                items: [
-                  {
-                    text: 'Uitwerking',
-                    collapsed: true,
-                    items: [
-                      { text: '01 — Context', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/01-context' },
-                      { text: '02 — Identiteitsarchitectuur', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/02-identiteitsarchitectuur' },
-                      { text: '03 — Authenticatieflow & registratie', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/03-authenticatieflow-en-registratie' },
-                      { text: '04 — Device- & kanaalintegratie', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/04-device-en-kanaalintegratie' },
-                      { text: '05 — Fraude- & misbruikpreventie', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/05-fraude-en-misbruikpreventie' },
-                      { text: '06 — Consent & profielclaims', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/06-consent-profielclaims' },
-                      { text: '07 — Sessie & tokens', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/07-sessie-en-tokens' },
-                      { text: '08 — Accountlifecycle & herstel', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/08-accountlifecycle-en-herstel' },
-                      { text: '09 — Compliance & auditlogging', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/09-compliance-en-auditlogging' },
-                      { text: '10 — CIAM-providerlijst per continent', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/10-ciam-providerlijst-per-continent' },
-                      {
-                        text: 'TECH',
-                        collapsed: true,
-                        items: [
-                          { text: 'Overzicht', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/' },
-                          { text: 'Architectuur & communicatie', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/architectuur' },
-                          {
-                            text: 'Variant A — Auth0',
-                            collapsed: true,
-                            items: [
-                              { text: 'Overzicht', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-a-auth0/' },
-                              { text: 'Vue frontend', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-a-auth0/vue-frontend-stappen' },
-                              { text: 'Backend (Node.js)', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-a-auth0/backend-node-stappen' },
-                              { text: 'Mobile-integratie', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-a-auth0/mobile-integratie' },
-                              { text: 'Voice + LLM', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-a-auth0/voice-en-llm' },
-                            ],
-                          },
-                          {
-                            text: 'Variant B — Keycloak',
-                            collapsed: true,
-                            items: [
-                              { text: 'Overzicht', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-b-keycloak/' },
-                              { text: 'Vue frontend', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-b-keycloak/vue-frontend-stappen' },
-                              { text: 'Backend (Node.js)', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-b-keycloak/backend-node-stappen' },
-                              { text: 'Mobile-integratie', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-b-keycloak/mobile-integratie' },
-                              { text: 'Voice + LLM', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-b-keycloak/voice-en-llm' },
-                            ],
-                          },
-                          {
-                            text: 'Variant C — Zitadel',
-                            collapsed: true,
-                            items: [
-                              { text: 'Overzicht', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/' },
-                              { text: 'Architectuur', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/architectuur' },
-                              { text: 'Handmatige setup', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/setup-handmatig' },
-                              { text: 'Nuxt frontend', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/nuxt-frontend-stappen' },
-                              { text: 'Backend (FastAPI)', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/backend-python-stappen' },
-                              { text: 'Mobile-integratie', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/mobile-integratie' },
-                              { text: 'Voice + LLM', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/voice-en-llm' },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  { text: 'Organisatieprofiel: Pulso', link: '/group-a-identity-access/uitwerking/casus-5/organisatieprofielen/pulso' },
-                  {
-                    text: 'Persona\'s',
-                    collapsed: true,
-                    items: [
-                      { text: 'Amira — fanatieke sporter', link: '/group-a-identity-access/uitwerking/casus-5/personas/amira-fanatieke-sporter' },
-                      { text: 'Thomas — wisselgebruiker', link: '/group-a-identity-access/uitwerking/casus-5/personas/thomas-wisselgebruiker' },
-                      { text: 'Henk — voice-first-gebruiker', link: '/group-a-identity-access/uitwerking/casus-5/personas/henk-voice-first-gebruiker' },
-                      { text: 'Nadia — privacybewuste professional', link: '/group-a-identity-access/uitwerking/casus-5/personas/nadia-privacy-professional' },
-                    ],
-                  },
-                ],
-              },
+              // Casus 5 (Consumentenproduct) leeft in /uitwerking/a1-authenticatie/consumentenproduct/
+              // en is bewust niet opgenomen in deze VitePress-publicatie.
             ],
           },
           { text: 'A2 — Autorisatie', link: '/group-a-identity-access/a2-autorisatie' },
