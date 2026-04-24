@@ -83,6 +83,7 @@ export default withMermaid({
                       { text: '07 — Sessie & tokens', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/07-sessie-en-tokens' },
                       { text: '08 — Accountlifecycle & herstel', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/08-accountlifecycle-en-herstel' },
                       { text: '09 — Compliance & auditlogging', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/09-compliance-en-auditlogging' },
+                      { text: '10 — CIAM-providerlijst per continent', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/10-ciam-providerlijst-per-continent' },
                       {
                         text: 'TECH',
                         collapsed: true,

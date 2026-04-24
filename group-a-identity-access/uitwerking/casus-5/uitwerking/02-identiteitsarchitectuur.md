@@ -91,6 +91,8 @@ Casus 5 verplicht zich bewust niet aan één leverancier. De ontwerp-uitkomst mo
 | **SuperTokens** | Open-core | Self-host + managed, recipe-based | Jonger, beperktere ecosysteem |
 | **Zitadel** | Rust/Go | Multi-tenant, modern, event-sourced | Jonger, community nog beperkt |
 
+> Een uitgebreide, **per-continent gegroepeerde catalogus** van leveranciers — met HQ, data-regio's en links — staat in `10-ciam-providerlijst-per-continent.md`.
+
 ### Identiteit-als-component (sociale federatie)
 
 "Sign in with Apple / Google / Microsoft / Facebook / X" is **nooit een volwaardig CIAM**, maar wel een cruciale federatie-laag bovenop een van de bovenstaande. Speciale aandachtspunten:

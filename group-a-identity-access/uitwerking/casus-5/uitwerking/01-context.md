@@ -73,5 +73,6 @@ De volgende bestanden in deze map werken elk een specifiek aspect verder uit:
 - `07-sessie-en-tokens.md` — tokenlevensduur per device-klasse, refresh-rotation, step-up, session-management API
 - `08-accountlifecycle-en-herstel.md` — signup → verify → progressive profiling → herstel → e-mailwissel → device-kwijt → verwijdering → family-plan-eigenaarschap
 - `09-compliance-en-auditlogging.md` — AVG + EHDS + platform-policies + consent-log + erasure-log + sign-in-log
+- `10-ciam-providerlijst-per-continent.md` — catalogus van betrouwbare CIAM-providers per continent, met hosting-regio's en selectie-advies
 
 De technische uitwerking in `tech/` toont **twee volledige varianten** naast elkaar: Auth0 (managed SaaS, leidraad) en Keycloak (self-hosted open source). De hoofdstukken 01-09 blijven platform-agnostisch; platformvergelijkingen lopen door de tekst als tabellen.
