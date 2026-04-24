@@ -35,3 +35,15 @@ Een commerciële applicatie voor eindconsumenten, bijvoorbeeld een webshop, een 
 - **B3 — Secrets Management**: wachtwoordhashes en API-keys van social providers veilig opgeslagen
 - **C1 — Logging & Audit Trail**: registratie, inlog en accountmutaties worden gelogd voor fraudedetectie en AVG-verantwoording
 - **C2 — Monitoring & Alerting**: anomaliedetectie op inlogpatronen (geo, snelheid, device)
+
+## Verdere uitwerking
+
+Deze casus is uitgewerkt rond een fictief multi-kanaals wellness-platform **Pulso**, met vier persona's die samen de verscheidenheid van consumenten-authenticatie over web, mobile, wearables, voice-assistenten, LLM-integraties en smart glasses dekken. De uitwerking is platform-agnostisch opgezet (hoofdstukken 01-09); de technische sectie bevat twee volledige varianten — Auth0 (managed SaaS) en Keycloak (self-hosted open source) — zodat de managed-vs-open-source-afweging concreet wordt.
+
+- [Uitwerking (9 deelbestanden)](./uitwerking/01-context) — van context tot compliance
+- [Organisatieprofiel: Pulso](./organisatieprofielen/pulso)
+- Persona's
+  - [Amira de fanatieke sporter](./personas/amira-fanatieke-sporter) — wearable-first, passkeys, dagelijks
+  - [Thomas de wisselgebruiker](./personas/thomas-wisselgebruiker) — sporadisch, wachtwoordherstel-centraal
+  - [Henk de voice-first-gebruiker](./personas/henk-voice-first-gebruiker) — Google Home / Alexa, toegankelijkheid
+  - [Nadia de privacybewuste professional](./personas/nadia-privacy-professional) — smart glasses + LLM, AVG-rechten
