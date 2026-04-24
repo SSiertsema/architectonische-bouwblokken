@@ -75,4 +75,10 @@ De volgende bestanden in deze map werken elk een specifiek aspect verder uit:
 - `09-compliance-en-auditlogging.md` — AVG + EHDS + platform-policies + consent-log + erasure-log + sign-in-log
 - `10-ciam-providerlijst-per-continent.md` — catalogus van betrouwbare CIAM-providers per continent, met hosting-regio's en selectie-advies
 
-De technische uitwerking in `tech/` toont **twee volledige varianten** naast elkaar: Auth0 (managed SaaS, leidraad) en Keycloak (self-hosted open source). De hoofdstukken 01-09 blijven platform-agnostisch; platformvergelijkingen lopen door de tekst als tabellen.
+De technische uitwerking in `tech/` toont **drie volledige varianten** naast elkaar:
+
+- **Variant A — Auth0** (managed SaaS, leidraad) + Node.js Fastify BFF + Vue 3 SPA
+- **Variant B — Keycloak** (self-hosted open source) + Node.js Fastify BFF + Vue 3 SPA
+- **Variant C — Zitadel** (open source + Swiss-hosted Cloud) + Python FastAPI + Nuxt.js (Nitro-BFF)
+
+De hoofdstukken 01-09 blijven platform-agnostisch; platformvergelijkingen lopen door de tekst als tabellen. Variant C laat zien dat dezelfde ontwerpbeslissingen door een andere stack (Python in plaats van Node, Nuxt in plaats van Vue-SPA, een andere CIAM) identiek blijven.

@@ -303,5 +303,8 @@ Elk kanaal heeft zijn eigen aanvalsoppervlak; elk kanaal zijn eigen verdediging.
 
 De feitelijke configuratie en codevoorbeelden per CIAM staan in:
 
-- [Variant A — Auth0](./variant-a-auth0/)
-- [Variant B — Keycloak](./variant-b-keycloak/)
+- [Variant A — Auth0](./variant-a-auth0/) (Node/Fastify BFF + Vue SPA)
+- [Variant B — Keycloak](./variant-b-keycloak/) (Node/Fastify BFF + Vue SPA)
+- [Variant C — Zitadel](./variant-c-zitadel/) (FastAPI API + Nuxt.js Nitro-BFF)
+
+Variant C heeft een eigen [architectuur-pagina](./variant-c-zitadel/architectuur) met specifieke Nuxt ↔ FastAPI ↔ Zitadel-sequencediagrammen, omdat de rolverdeling tussen frontend-server en API wezenlijk anders is.

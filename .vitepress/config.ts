@@ -112,6 +112,18 @@ export default withMermaid({
                               { text: 'Voice + LLM', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-b-keycloak/voice-en-llm' },
                             ],
                           },
+                          {
+                            text: 'Variant C — Zitadel',
+                            collapsed: true,
+                            items: [
+                              { text: 'Overzicht', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/' },
+                              { text: 'Architectuur', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/architectuur' },
+                              { text: 'Nuxt frontend', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/nuxt-frontend-stappen' },
+                              { text: 'Backend (FastAPI)', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/backend-python-stappen' },
+                              { text: 'Mobile-integratie', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/mobile-integratie' },
+                              { text: 'Voice + LLM', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/voice-en-llm' },
+                            ],
+                          },
                         ],
                       },
                     ],

@@ -1,17 +1,18 @@
 # TECH — technische uitwerking Casus 5
 
-Deze sectie bevat twee volledige technische invullingen van de casus. De hoofdstukken 01-09 zijn platform-agnostisch; deze `tech/`-sectie maakt het concreet door het CIAM-platform *vast te pinnen* en de integratie end-to-end te beschrijven.
+Deze sectie bevat drie volledige technische invullingen van de casus. De hoofdstukken 01-09 zijn platform-agnostisch; deze `tech/`-sectie maakt het concreet door het CIAM-platform *vast te pinnen* en de integratie end-to-end te beschrijven.
 
-## Twee varianten naast elkaar
+## Drie varianten naast elkaar
 
-| Variant | Platform | Rol in deze casus |
-|---------|----------|---------------------|
-| **A — Auth0** (Okta Customer Identity Cloud) | Managed CIAM (SaaS) | Leidraad — marktleider, rijke built-ins, Pulso's huidige stack |
-| **B — Keycloak** | Self-hosted open source | Alternatief — volledige controle, data-residency, voorspelbare kosten op schaal |
+| Variant | CIAM | Backend | Frontend | Rol in deze casus |
+|---------|------|---------|----------|---------------------|
+| **A — Auth0** (Okta Customer Identity Cloud) | Managed SaaS | Node.js + Fastify BFF | Vue 3 SPA | Leidraad — marktleider, rijke built-ins, Pulso's huidige stack |
+| **B — Keycloak** | Self-hosted open source | Node.js + Fastify BFF | Vue 3 SPA | Alternatief — volledige controle, data-residency, voorspelbare kosten |
+| **C — Zitadel** | Open source + Cloud (Zwitsers) | Python + FastAPI | Nuxt.js (Nitro BFF) | Alternatieve stack — EU-jurisdictie, event-sourced, Python + Nuxt |
 
-Waar de varianten identiek zijn (Vue 3 SPA, Node.js BFF, iOS/Android client-pattern) schrijft dit document het één keer op; waar ze verschillen (CIAM-configuratie, SDK, observability-koppeling, operationele overwegingen) staat het per-variant in de bijbehorende submap.
+Waar varianten identiek zijn (mobile AppAuth-patroon, voice/LLM-integratiepatronen, refresh-rotation-strategie) schrijft dit document het één keer op; waar ze verschillen (CIAM-configuratie, SDK, observability-koppeling, operationele overwegingen) staat het per-variant in de bijbehorende submap.
 
-## Gedeelde stack
+## Gedeelde stack — variant A en B
 
 - **Frontend (web)** — Vue 3 + Vite + TypeScript, gedraaid als SPA
 - **Backend-for-Frontend** — Node.js 20 + Fastify + TypeScript op AWS (ECS/Fargate of EKS), BFF-patroon voor web
@@ -21,6 +22,12 @@ Waar de varianten identiek zijn (Vue 3 SPA, Node.js BFF, iOS/Android client-patt
 - **Observability** — Datadog (APM + logs) + Sentry (errors)
 - **Voice** — Google Actions Console + Alexa Skills Kit
 - **LLM** — ChatGPT Actions manifest + Claude MCP-server (Pulso zelf-gehost)
+
+## Afwijkende stack — variant C
+
+- **Frontend (web)** — Nuxt.js (Vue 3 + Nitro-server) — de Nitro-server is de BFF
+- **Backend** — Python 3.12 + FastAPI + Authlib — pure API, geen sessies, alleen Bearer-token-validatie
+- Mobile, database, edge, voice, LLM: identiek aan A/B
 
 ## Patroon 1 — BFF voor web
 
@@ -60,9 +67,35 @@ Claude MCP-servers accepteren dynamische client-registratie (RFC 7591). Pulso ho
 - [Mobile-integratie — Keycloak](./variant-b-keycloak/mobile-integratie) — AppAuth met Keycloak-realm
 - [Voice + LLM — Keycloak](./variant-b-keycloak/voice-en-llm) — Account Linking + MCP + Actions
 
+### Variant C — Zitadel
+
+- [Variant C index](./variant-c-zitadel/) — Zitadel-concepten, Cloud vs self-host, Pulso's org-opzet, vergelijking met A/B
+- [Architectuur — Variant C](./variant-c-zitadel/architectuur) — Nuxt ↔ FastAPI ↔ Zitadel diagrammen
+- [Nuxt frontend — Zitadel](./variant-c-zitadel/nuxt-frontend-stappen) — Nuxt 3/4 + nuxt-oidc-auth + server-BFF
+- [Backend Python (FastAPI) — Zitadel](./variant-c-zitadel/backend-python-stappen) — Authlib + JWKS + Management API
+- [Mobile-integratie — Zitadel](./variant-c-zitadel/mobile-integratie) — AppAuth met Zitadel issuer
+- [Voice + LLM — Zitadel](./variant-c-zitadel/voice-en-llm) — Account Linking + MCP-proxy (DCR)
+
 ### Overkoepelend
 
 - [Architectuur & communicatie](./architectuur) — componentendiagram + sequencediagrammen per kanaal
+
+## Beslissingscriteria — drie varianten vergeleken
+
+| Criterium | Auth0 (A) | Keycloak (B) | Zitadel (C) |
+|-----------|-----------|---------------|---------------|
+| HQ / jurisdictie | US (Okta) | US (Red Hat/IBM) | Zwitserland (EU) |
+| CLOUD Act-exposure | Ja | Ja (als US-distributie) | Nee |
+| Licentie | Commercieel | Apache 2.0 | Apache 2.0 + commercial cloud |
+| Managed opt-in | Native | Alleen self-host | Native (Cloud) + self-host |
+| Admin-UX | Uitstekend | Goed | Goed, modern |
+| Event-model | Logs + webhooks | Event Listener SPI | Event-sourced (native) |
+| Actions-taal | JavaScript | Java SPI + FreeMarker | JavaScript |
+| DCR | Via Mgmt API | Native RFC 7591 | Via Mgmt API |
+| Frontend in deze casus | Vue 3 SPA | Vue 3 SPA | Nuxt.js (Nitro) |
+| Backend in deze casus | Node.js Fastify | Node.js Fastify | Python FastAPI |
+| Pricing op 650k MAU | Hoog (per-MAU) | Flat (infra) | Middelhoog (per-MAU Cloud) |
+| Ops-complexiteit | Nul | Middel-hoog | Laag (Cloud) / middel (self-host) |
 
 ## Beslissingscriteria Auth0 vs. Keycloak voor Pulso
 
