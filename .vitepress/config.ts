@@ -118,6 +118,7 @@ export default withMermaid({
                             items: [
                               { text: 'Overzicht', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/' },
                               { text: 'Architectuur', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/architectuur' },
+                              { text: 'Handmatige setup', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/setup-handmatig' },
                               { text: 'Nuxt frontend', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/nuxt-frontend-stappen' },
                               { text: 'Backend (FastAPI)', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/backend-python-stappen' },
                               { text: 'Mobile-integratie', link: '/group-a-identity-access/uitwerking/casus-5/uitwerking/tech/variant-c-zitadel/mobile-integratie' },

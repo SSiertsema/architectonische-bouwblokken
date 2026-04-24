@@ -71,6 +71,7 @@ Claude MCP-servers accepteren dynamische client-registratie (RFC 7591). Pulso ho
 
 - [Variant C index](./variant-c-zitadel/) — Zitadel-concepten, Cloud vs self-host, Pulso's org-opzet, vergelijking met A/B
 - [Architectuur — Variant C](./variant-c-zitadel/architectuur) — Nuxt ↔ FastAPI ↔ Zitadel diagrammen
+- [Handmatige setup — runbook](./variant-c-zitadel/setup-handmatig) — console-stappen, DNS, secrets, stores, compliance
 - [Nuxt frontend — Zitadel](./variant-c-zitadel/nuxt-frontend-stappen) — Nuxt 3/4 + nuxt-oidc-auth + server-BFF
 - [Backend Python (FastAPI) — Zitadel](./variant-c-zitadel/backend-python-stappen) — Authlib + JWKS + Management API
 - [Mobile-integratie — Zitadel](./variant-c-zitadel/mobile-integratie) — AppAuth met Zitadel issuer

@@ -99,6 +99,7 @@ Pulso's keuze in deze casus: **Cloud voor EU, self-host-optioneel voor US** — 
 Gedetailleerde implementaties:
 
 - [Architectuur voor deze variant](./architectuur) — diagrammen van rolverdeling en flow
+- [Handmatige setup — runbook](./setup-handmatig) — wat je configureert in Zitadel Console, Google, Alexa, ChatGPT, Apple, Play, AWS, DNS
 - [Nuxt frontend — stappen](./nuxt-frontend-stappen) — `nuxt-oidc-auth`, composables, server-proxy
 - [FastAPI backend — stappen](./backend-python-stappen) — Authlib, JWKS-cache, Management API
 - [Mobile-integratie](./mobile-integratie) — AppAuth iOS/Android tegen Zitadel
